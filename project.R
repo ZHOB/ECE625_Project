@@ -1,6 +1,6 @@
 dirc_zihao = "/Users/zhob/Desktop/ECE625/project/ECE625_Project/data/data.csv"
 
-dirc_xiaohan = ""
+dirc_xiaohan = "/Users/nanaseki/Desktop/ECE625/Projects/ECE625_Project/data/clean_data_28-11.csv"
 
 dirc_luisa = ""
 

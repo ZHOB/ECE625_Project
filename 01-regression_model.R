@@ -17,7 +17,7 @@ test=(-train)
 dim(houses[test,])
 
 
-houses_lm.fit1=lm(assessed_value~ net_area
+houses_lm.fit02=lm(assessed_value~ net_area
                   +(lot_size_M2)
                   +(site_coverage_int)
                   +(build_year_mbc_Y)
@@ -34,6 +34,6 @@ houses_lm.fit1=lm(assessed_value~ net_area
                   +market_building_class_split
                   +has_basement,
                   data=houses[train,])
-summary(houses_lm.fit1) #Multiple R-squared:  0.8132,	Adjusted R-squared:  0.812 
-assessed_value_predicted = predict(houses_lm.fit1, houses[test, ] )
-mean( (houses[test,]$assessed_value -assessed_value_predicted )^2) 
+summary(houses_lm.fit02) #Multiple R-squared:  0.8132,	Adjusted R-squared:  0.812 
+assessed_value_predicted = predict(houses_lm.fit1, houses[test,])
+residuals()
