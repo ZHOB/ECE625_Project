@@ -89,38 +89,63 @@ set.seed(10)
 ##test=(-train)
 
 
-smp_size_raw <- floor(0.9 * nrow(house))
-train_ind_raw <- sample(nrow(house), size = smp_size_raw)
-train <- house[train_ind_raw, ]
-test <- house[-train_ind_raw, ]
+#smp_size_raw <- floor(0.9 * nrow(house))
+#train_ind_raw <- sample(nrow(house), size = smp_size_raw)
+#train <- house[train_ind_raw, ]
+#test <- house[-train_ind_raw, ]
+
+ dt=sample(nrow(house),nrow(house)*0.9)
+ train=as.data.frame(house[dt,])
+ test=as.data.frame(house[-dt,])
+ 
 
 
 house$valuation_group_type=scale(house$valuation_group_type)
 
-house_lda.fit02=lda(assessed_value~ #house$has_garage
-                   #+house$basement_finished
-                   #+house$walkout_basement
-                   house$air_conditioning
-                   +house$net_area
-                   +house$site_coverage_int
-                   +house$tot_gross_area_description_M2
-                   +house$has_basement
-                   +house$building_count_type
-                   +house$valuation_group_type
-                   +house$neighbourhood
-                   #+house$market_building_class_split
-                   #+house$landuse_description
-                   #+house$geometry
-                   #+house$effective_build_year
-                   #+house$market_building_class
-                   #+house$build_year_mbc_Y
-                   #+house$has_fireplace
-                   #+house$fully_taxable
-                   ,data=train)
-summary(house_lm.fit02)
+lda.fit=lda(assessed_value~house$has_garage #0.002843659
+                   #+house$basement_finished #0.002339464
+                   +house$walkout_basement #0.002863827
+                   +house$air_conditioning #0.002823491
+                   #+house$net_area #0.001855437
+                   #+house$site_coverage_int #0.002682317
+                   #+house$tot_gross_area_description_M2 #0.001875605
+                   #+house$has_basement #0.002601646
+                   +house$building_count_type #0.003025169
+                   #+house$valuation_group_type #0.002178122
+                   #+house$neighbourhood #0.002238625
+                   #+house$market_building_class_split #0.001714263
+                   +house$landuse_description #0.002803324
+                   +house$geometry #0.003005002
+                   #+house$effective_build_year #0.001915941
+                   #+house$market_building_class #0.001714263
+                   #+house$build_year_mbc_Y #0.001915941
+                   #+house$has_fireplace #0.001452081
+                   +house$fully_taxable #0.003005002
+                   ,data=house,subset=dt)
+summary(lda.fit)
 
-predict = predict(lda.fit, houses[test,])
+predict = predict(lda.fit,train)
 
-#table(predict$class, houses[test,])
-#mean(predict$class == houses[test,])
+aa = table(predict$class,test$assessed_value)
+
+mean(predict$class == test$assessed_value)
+
+aa[2,1]/sum(aa[,1])
+
+(aa[2,1]+aa[1,2])/sum(sum(aa) )
+
+#predict.posteriors = as.data.frame(predict$posterior)
+
+#evaluation
+#library("ROCR")
+
+#pred <- prediction(predict.posteriors, house$assessed_value)
+#roc.perf = performance(pred, measure = "tpr", x.measure = "fpr")
+#auc.train <- performance(pred, measure = "auc")
+#auc.train <- auc.train@y.values
+# Plot
+#plot(roc.perf)
+#abline(a=0, b= 1)
+#text(x = .25, y = .65 ,paste("AUC = ", round(auc.train[[1]],3), sep = ""))
+
 
