@@ -104,24 +104,24 @@ house$valuation_group_type=scale(house$valuation_group_type)
 
 lda.fit=lda(assessed_value~house$has_garage #0.002843659
                    #+house$basement_finished #0.002339464
-                   +house$walkout_basement #0.002863827
-                   +house$air_conditioning #0.002823491
+                   #+house$walkout_basement #0.002863827
+                   #+house$air_conditioning #0.002823491
                    #+house$net_area #0.001855437
                    #+house$site_coverage_int #0.002682317
                    #+house$tot_gross_area_description_M2 #0.001875605
                    #+house$has_basement #0.002601646
-                   +house$building_count_type #0.003025169
+                   #+house$building_count_type #0.003025169
                    #+house$valuation_group_type #0.002178122
                    #+house$neighbourhood #0.002238625
                    #+house$market_building_class_split #0.001714263
-                   +house$landuse_description #0.002803324
-                   +house$geometry #0.003005002
+                   #+house$landuse_description #0.002803324
+                   #+house$geometry #0.003005002
                    #+house$effective_build_year #0.001915941
                    #+house$market_building_class #0.001714263
                    #+house$build_year_mbc_Y #0.001915941
                    #+house$has_fireplace #0.001452081
-                   +house$fully_taxable #0.003005002
-                   ,data=house,subset=dt)
+                   #+house$fully_taxable #0.003005002
+                   ,data=house,family = binomial, subset=dt)
 summary(lda.fit)
 
 predict = predict(lda.fit,train)
@@ -133,6 +133,29 @@ mean(predict$class == test$assessed_value)
 aa[2,1]/sum(aa[,1])
 
 (aa[2,1]+aa[1,2])/sum(sum(aa) )
+
+qda.fit=qda(assessed_value~#house$has_garage #0.002843659
+                   #+house$basement_finished #0.002339464
+                   #+house$walkout_basement #0.002863827
+                   #+house$air_conditioning #0.002823491
+                   +house$net_area #0.001855437
+                   #+house$site_coverage_int #0.002682317
+                   #+house$tot_gross_area_description_M2 #0.001875605
+                   #+house$has_basement #0.002601646
+                   #+house$building_count_type #0.003025169
+                   #+house$valuation_group_type #0.002178122
+                   #+house$neighbourhood #0.002238625
+                   #+house$market_building_class_split #0.001714263
+                   #+house$landuse_description #0.002803324
+                   #+house$geometry #0.003005002
+                   #+house$effective_build_year #0.001915941
+                   #+house$market_building_class #0.001714263
+                   #+house$build_year_mbc_Y #0.001915941
+                   #+house$has_fireplace #0.001452081
+                   #+house$fully_taxable #0.003005002
+                   ,data=house, subset=dt)
+
+
 
 #predict.posteriors = as.data.frame(predict$posterior)
 
