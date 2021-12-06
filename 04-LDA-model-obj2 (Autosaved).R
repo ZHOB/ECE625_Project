@@ -197,7 +197,7 @@ for (k in 1:kfolds){
 					#+ basement_finished
 					#+ has_garage
 					#+ has_fireplace
-					#+assessed_value
+					+assessed_value
 					#+ street_name #really slow and does not help
 					#+ postal_code #really slow and does not help
 					#+neighbourhood
@@ -211,7 +211,7 @@ for (k in 1:kfolds){
 					#+ Assessment.Year ##Error: variable 16 appears to be constant within groups
 					#+ Legal.Description #memery exhausted
 					#+ Zoning # * but slow
-					#+ Assessed.Value
+					+ Assessed.Value
 					#+Assessment.Class.1
 					+Assessment.Class...1 # *
 					#+ lot_size_M2
@@ -221,13 +221,13 @@ for (k in 1:kfolds){
 					+ market_building_class_split # *
 					+ X3string_postal_code #***useful
 					#+ has_basement, 
-                                ,data=house,subset= testIndexes)
+                    ,data=house,subset= testIndexes)
         lda_pred          <- predict(lda_model, testData)
         class_pred        <- lda_pred$class
-        CV_accurcy_vec[k]     <- mean(class_pred == testData$increase)
+        CV_error_vec[k]     <- mean(class_pred != testData$increase)
 }
 
-print(paste("LDA Error Rate:", round(mean(CV_accurcy_vec),3)))
+print(paste("LDA Error Rate:", round(mean(CV_error_vec),3)))
 
 
 aa = table(train$increase, lda.fit.cv$class)
