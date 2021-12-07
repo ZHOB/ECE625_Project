@@ -224,12 +224,7 @@ for (k in 1:kfolds){
                                 ,data=house,subset= testIndexes)
         lda_pred          <- predict(lda_model, testData)
         class_pred        <- lda_pred$class
-        CV_accurcy_vec[k]     <- mean(class_pred == testData$increase)
+        CV_error_vec[k]     <- mean(class_pred != testData$increase)
 }
 
-print(paste("LDA Error Rate:", round(mean(CV_accurcy_vec),3)))
-
-
-aa = table(train$increase, lda.fit.cv$class)
-
-aa
+print(paste("LDA Error Rate:", round(mean(CV_error_vec),3)))
